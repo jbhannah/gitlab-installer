@@ -15,8 +15,11 @@ export GL_GIT_BRANCH="5-2-stable"
 # Define the version of ruby the environment that we are installing for
 export RUBY_VERSION="1.9.3-p429"
 
-# Define MySQL root password
-MYSQL_ROOT_PW=$(cat /dev/urandom | tr -cd [:alnum:] | head -c ${1:-16})
+# Define MySQL user name
+MYSQL_USER=gitlab
+
+# Define MySQL user password
+MYSQL_USER_PW=$(cat /dev/urandom | tr -cd [:alnum:] | head -c ${1:-16})
 
 # Exit on error
 
@@ -97,11 +100,14 @@ chkconfig mysqld on
 ## Start mysqld
 service mysqld start
 
+### Create a user for Gitlab
+echo "CREATE USER '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_USER_PW';" | mysql -u root
+
 ### Create the database
 echo "CREATE DATABASE IF NOT EXISTS gitlabhq_production DEFAULT CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci';" | mysql -u root
 
-## Set MySQL root password in MySQL
-echo "UPDATE mysql.user SET Password=PASSWORD('$MYSQL_ROOT_PW') WHERE User='root'; FLUSH PRIVILEGES;" | mysql -u root
+### Grant permissions to Gitlab user
+echo "GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON gitlabhq_production.* TO '$MYSQL_USER'@'localhost';" | mysql -u root
 
 # GitLab
 
@@ -134,8 +140,9 @@ sed -i "s|# bind 'tcp://0.0.0.0:9292'|bind 'tcp://127.0.0.1:9292'|g" /home/git/g
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
 
-### Set MySQL root password in configuration file
-sed -i "s/secure password/$MYSQL_ROOT_PW/g" config/database.yml
+### Set MySQL username and password in configuration file
+sed -i "s/root/$MYSQL_USER/g" config/database.yml
+sed -i "s/secure password/$MYSQL_USER_PW/g" config/database.yml
 
 ### Configure git user
 su git -c 'git config --global user.name  "GitLab"'
