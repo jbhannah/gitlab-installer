@@ -130,12 +130,11 @@ sed -i "s/  host: localhost/  host: $GL_HOSTNAME/g" config/gitlab.yml
 ### Change the from email address
 sed -i "s/from: gitlab@localhost/from: gitlab@$GL_HOSTNAME/g" config/gitlab.yml
 
-### Copy the example Unicorn config
-su git -c "cp config/unicorn.rb.example config/unicorn.rb"
+### Copy the example Pumpa config
+su git -c "cp config/puma.rb.example config/puma.rb"
 
-### Listen on localhost:3000
-sed -i "s/^listen/#listen/g" /home/git/gitlab/config/unicorn.rb
-sed -i "s/#listen \"127.0.0.1:8080\"/listen \"127.0.0.1:3000\"/g" /home/git/gitlab/config/unicorn.rb
+### Create socket directory
+su git -c "mkdir tmp/sockets"
 
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
@@ -169,9 +168,6 @@ chmod +x /etc/init.d/gitlab
 # bundle not in path (edit init-script).
 # Add after ". /etc/rc.d/init.d/functions" (row 17).
 sed -i "17 a source /etc/profile.d/rvm.sh\nrvm use $RUBY_VERSION" /etc/init.d/gitlab
-
-# Copy Puma config
-cp /home/git/gitlab/config/puma.rb.example /home/git/gitlab/config/puma.rb
 
 ### Enable and start
 chkconfig gitlab on
