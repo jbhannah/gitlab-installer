@@ -133,9 +133,9 @@ sed -i "s/from: gitlab@localhost/from: gitlab@$GL_HOSTNAME/g" config/gitlab.yml
 ### Copy the example Pumpa config
 su git -c "cp config/puma.rb.example config/puma.rb"
 
-### Listen on localhost:9292
+### Listen on localhost:3000
 sed -i "s/^bind /# bind /g" /home/git/gitlab/config/puma.rb
-sed -i "s|# bind 'tcp://0.0.0.0:9292'|bind 'tcp://127.0.0.1:9292'|g" /home/git/gitlab/config/puma.rb
+sed -i "s|# bind 'tcp://0.0.0.0:9292'|bind 'tcp://127.0.0.1:3000'|g" /home/git/gitlab/config/puma.rb
 
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
@@ -191,11 +191,11 @@ yum -y install httpd
 chkconfig httpd on
 
 ## Configure
-cat > /etc/httpd/conf.d/gitlab.conf << EOF
-ProxyPass / http://127.0.0.1:9292/
-ProxyPassReverse / http://127.0.0.1:9292/
-ProxyPreserveHost On
-EOF
+curl -o /etc/httpd/conf.d/gitlab.conf https://raw.github.com/gitlabhq/gitlab-recipes/master/apache/gitlab
+sed -i -e "s/gitlab\.example\.com/$GL_HOSTNAME/g" \
+       -e "s/example\.com/$GL_HOSTNAME/g" \
+       -e "/<VirtualHost \*:443>/,/<\/VirtualHost>/ s/^/#/" \
+       -e "s/apache2/httpd/g" /etc/httpd/conf.d/gitlab.conf
 
 ### Configure SElinux
 setsebool -P httpd_can_network_connect 1
