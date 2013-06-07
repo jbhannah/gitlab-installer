@@ -38,14 +38,21 @@ echo "### Check OS (we check if the kernel release contains el6)"
 uname -r | grep "el6" || die 1 "Not RHEL or CentOS 6 (el6)"
 
 # Install base packages
-yum -y install git
+
+## Install git from source
+yum -y install gettext gettext-devel expat-devel curl-devel zlib-devel openssl-devel cpan
+echo "yes" | cpan -i ExtUtils::MakeMaker
+curl https://www.kernel.org/pub/software/scm/git/git-1.8.3.tar.bz2 | tar xj
+cd git-1.8.3
+./configure --prefix=/usr/local --without-tcltk
+make install
 
 ## Install epel-release
 yum -y install http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 
 # Ruby
 ## packages (from rvm install message):
-yum -y install patch gcc-c++ readline-devel zlib-devel libffi-devel openssl-devel make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel
+yum -y install patch gcc-c++ readline-devel libffi-devel make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel
 
 ## Install rvm (instructions from https://rvm.io)
 curl -L get.rvm.io | bash -s stable
@@ -133,6 +140,9 @@ sed -i "s/  host: localhost/  host: $GL_HOSTNAME/g" config/gitlab.yml
 
 ### Change the from email address
 sed -i "s/from: gitlab@localhost/from: gitlab@$GL_HOSTNAME/g" config/gitlab.yml
+
+### Change Git path
+sed -i "s|/usr/bin/git|/usr/local/bin/git|g" config/gitlab.yml
 
 ### Copy the example Puma config
 su git -c "cp config/puma.rb.example config/puma.rb"
