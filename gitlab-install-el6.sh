@@ -65,6 +65,10 @@ gem install --no-ri --no-rdoc bundler
 ## Create a git user for Gitlab
 adduser --system --create-home --comment 'GitLab' git
 
+## Configure git for the git user
+su - git -c "git config --global user.name GitLab"
+su - git -c "git config --global user.email gitlab@$GL_HOSTNAME"
+
 # GitLab Shell
 
 ## Clone gitlab-shell
