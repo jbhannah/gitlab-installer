@@ -130,7 +130,7 @@ sed -i "s/  host: localhost/  host: $GL_HOSTNAME/g" config/gitlab.yml
 ### Change the from email address
 sed -i "s/from: gitlab@localhost/from: gitlab@$GL_HOSTNAME/g" config/gitlab.yml
 
-### Copy the example Pumpa config
+### Copy the example Puma config
 su git -c "cp config/puma.rb.example config/puma.rb"
 
 ### Listen on localhost:3000
