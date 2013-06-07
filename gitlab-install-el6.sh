@@ -148,10 +148,6 @@ su git -c "cp config/database.yml.mysql config/database.yml"
 sed -i "s/root/$MYSQL_USER/g" config/database.yml
 sed -i "s/secure password/$MYSQL_USER_PW/g" config/database.yml
 
-### Configure git user
-su git -c 'git config --global user.name  "GitLab"'
-su git -c 'git config --global user.email "gitlab@$GL_HOSTNAME"'
-
 ### Create pidfile directory
 su git -c "mkdir tmp/pids"
 
