@@ -212,9 +212,12 @@ iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 service iptables save
 
 echo "### Done ###############################################"
-echo "#"
-echo "# You have your MySQL root password in this file:"
+echo "# The password for the $MYSQL_USER MySQL user is in:"
 echo "# /home/git/gitlab/config/database.yml"
+echo "#"
+echo "# If this is a production server, you should run (as root):"
+echo "# /usr/bin/mysql_secure_installation"
+echo "# and follow all of its security recommendations."
 echo "#"
 echo "# Point your browser to:" 
 echo "# http://$GL_HOSTNAME (or: http://<host-ip>)"
