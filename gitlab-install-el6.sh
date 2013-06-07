@@ -212,7 +212,12 @@ iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 ## Save iptables
 service iptables save
 
+# Final configuration check
+su git -c "bundle exec rake gitlab:check RAILS_ENV=production"
+
 echo "### Done ###############################################"
+echo "# If the above configuration check is all green, you're set!"
+echo "#"
 echo "# The password for the $MYSQL_USER MySQL user is in:"
 echo "# /home/git/gitlab/config/database.yml"
 echo "#"
