@@ -137,6 +137,9 @@ su git -c "cp config/puma.rb.example config/puma.rb"
 sed -i "s/^bind /# bind /g" /home/git/gitlab/config/puma.rb
 sed -i "s|# bind 'tcp://0.0.0.0:9292'|bind 'tcp://127.0.0.1:9292'|g" /home/git/gitlab/config/puma.rb
 
+### Create pidfile directory
+su git -c "mkdir tmp/pids"
+
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
 
