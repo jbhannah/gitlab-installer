@@ -133,8 +133,9 @@ sed -i "s/from: gitlab@localhost/from: gitlab@$GL_HOSTNAME/g" config/gitlab.yml
 ### Copy the example Pumpa config
 su git -c "cp config/puma.rb.example config/puma.rb"
 
-### Create socket directory
-su git -c "mkdir tmp/sockets"
+### Listen on localhost:9292
+sed -i "s/^bind /# bind /g" /home/git/gitlab/config/puma.rb
+sed -i "s/# bind 'tcp://0.0.0.0:9292'/bind 'tcp://127.0.0.1:9292'/g" /home/git/gitlab/config/puma.rb
 
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
@@ -181,8 +182,8 @@ chkconfig httpd on
 
 ## Configure
 cat > /etc/httpd/conf.d/gitlab.conf << EOF
-ProxyPass / unix:///home/git/gitlab/tmp/sockets/gitlab.socket
-ProxyPassReverse / unix:///home/git/gitlab/tmp/sockets/gitlab.socket
+ProxyPass / http://127.0.0.1:9292/
+ProxyPassReverse / http://127.0.0.1:9292/
 ProxyPreserveHost On
 EOF
 
