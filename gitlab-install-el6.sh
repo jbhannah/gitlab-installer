@@ -149,9 +149,8 @@ su git -c 'git config --global user.email "gitlab@$GL_HOSTNAME"'
 
 # Install Gems
 
-## Install Charlock holmes
+## For Charlock holmes
 yum -y install libicu-devel
-gem install charlock_holmes --version '0.6.9'
 
 ## For MySQL
 yum -y install mysql-devel
