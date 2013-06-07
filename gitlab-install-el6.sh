@@ -7,13 +7,13 @@
 # Submit issues here: github.com/mattias-ohlsson/gitlab-installer
 
 # Define the public hostname
-export GL_HOSTNAME=$HOSTNAME
+GL_HOSTNAME=$HOSTNAME
 
 # Install from this GitLab branch
-export GL_GIT_BRANCH="5-2-stable"
+GL_GIT_BRANCH="5-2-stable"
 
 # Define the version of ruby the environment that we are installing for
-export RUBY_VERSION="1.9.3-p429"
+RUBY_VERSION="1.9.3-p429"
 
 # Define MySQL user name
 MYSQL_USER=gitlab
