@@ -196,6 +196,7 @@ sed -i -e "s/gitlab\.example\.com/$GL_HOSTNAME/g" \
        -e "s/example\.com/$GL_HOSTNAME/g" \
        -e "/<VirtualHost \*:443>/,/<\/VirtualHost>/ s/^/#/" \
        -e "s/apache2/httpd/g" /etc/httpd/conf.d/gitlab.conf
+mkdir /var/log/httpd/gitlab
 
 ### Configure SElinux
 setsebool -P httpd_can_network_connect 1
