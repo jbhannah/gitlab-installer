@@ -217,7 +217,7 @@ iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 service iptables save
 
 # Final configuration check
-su git -c "bundle exec rake gitlab:check RAILS_ENV=production"
+su - git -c "cd gitlab && bundle exec rake gitlab:check RAILS_ENV=production"
 
 echo "### Done ###############################################"
 echo "# If the above configuration check is all green, you're set!"
