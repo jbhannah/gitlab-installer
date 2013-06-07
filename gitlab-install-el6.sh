@@ -131,9 +131,6 @@ su git -c "cp config/puma.rb.example config/puma.rb"
 sed -i "s/^bind /# bind /g" /home/git/gitlab/config/puma.rb
 sed -i "s|# bind 'tcp://0.0.0.0:9292'|bind 'tcp://127.0.0.1:9292'|g" /home/git/gitlab/config/puma.rb
 
-### Create pidfile directory
-su git -c "mkdir tmp/pids"
-
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
 
@@ -143,6 +140,15 @@ sed -i "s/secure password/$MYSQL_ROOT_PW/g" config/database.yml
 ### Configure git user
 su git -c 'git config --global user.name  "GitLab"'
 su git -c 'git config --global user.email "gitlab@$GL_HOSTNAME"'
+
+### Create pidfile directory
+su git -c "mkdir tmp/pids"
+
+### Create uploads directory
+su git -c "mkdir public/uploads"
+
+### Create satellites directory
+su git -c "mkdir /home/git/gitlab-satellites"
 
 # Install Gems
 
