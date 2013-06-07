@@ -13,7 +13,7 @@ export GL_HOSTNAME=$HOSTNAME
 export GL_GIT_BRANCH="5-2-stable"
 
 # Define the version of ruby the environment that we are installing for
-export RUBY_VERSION="1.9.3-p392"
+export RUBY_VERSION="1.9.3-p429"
 
 # Define MySQL root password
 MYSQL_ROOT_PW=$(cat /dev/urandom | tr -cd [:alnum:] | head -c ${1:-16})
