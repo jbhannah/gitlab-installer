@@ -61,7 +61,7 @@ command rvm install $RUBY_VERSION --with-libyaml-dir=/usr/local/rvm/usr
 rvm --default use $RUBY_VERSION
 
 ## Install core gems
-gem install bundler
+gem install --no-ri --no-rdoc bundler
 
 # Users
 
