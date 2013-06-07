@@ -170,6 +170,9 @@ chmod +x /etc/init.d/gitlab
 # Add after ". /etc/rc.d/init.d/functions" (row 17).
 sed -i "17 a source /etc/profile.d/rvm.sh\nrvm use $RUBY_VERSION" /etc/init.d/gitlab
 
+# Copy Puma config
+cp /home/git/gitlab/config/puma.rb.example /home/git/gitlab/config/puma.rb
+
 ### Enable and start
 chkconfig gitlab on
 service gitlab start
@@ -182,8 +185,8 @@ chkconfig httpd on
 
 ## Configure
 cat > /etc/httpd/conf.d/gitlab.conf << EOF
-ProxyPass / http://127.0.0.1:3000/
-ProxyPassReverse / http://127.0.0.1:3000/
+ProxyPass / unix:///home/git/gitlab/tmp/sockets/gitlab.socket
+ProxyPassReverse / unix:///home/git/gitlab/tmp/sockets/gitlab.socket
 ProxyPreserveHost On
 EOF
 
