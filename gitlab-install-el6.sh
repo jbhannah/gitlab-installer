@@ -108,7 +108,7 @@ service redis start
 chkconfig redis on
 
 ## Install mysql-server
-yum install -y mysql-server
+yum -y install mysql-server
 
 ## Turn on autostart
 chkconfig mysqld on
@@ -128,7 +128,7 @@ echo "GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, AL
 # Email
 
 ## Install sendmail-cf
-yum -y install sendmail
+yum -y install sendmail-cf
 
 ## Configure sendmail
 cd /etc/mail
