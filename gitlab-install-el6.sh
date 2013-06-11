@@ -45,7 +45,7 @@ uname -r | grep "el6" || die 1 "Not RHEL or CentOS 6 (el6)"
 yum -y install http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 
 ## Install build dependencies
-yum -y install patch gcc-c++ readline-devel libffi-devel make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel gettext expat-devel curl-devel zlib-devel openssl-devel perl-ExtUtils-MakeMaker
+yum -y install patch gcc-c++ readline-devel libffi-devel make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel gettext expat-devel curl-devel zlib-devel openssl-devel perl-ExtUtils-MakeMaker libicu libicu-devel
 
 ## Install git from source
 cd /usr/local/src
@@ -66,10 +66,10 @@ rvm install $RUBY_VERSION
 rvm --default use $RUBY_VERSION
 
 ## Install core gems
-gem install --no-ri --no-rdoc bundler
+gem install bundler --no-ri --no-rdoc
 
 ## Install charlock_holmes
-gem install charlock_holmes --version '0.6.9.4'
+gem install charlock_holmes --version '0.6.9.4' --no-ri --no-rdoc
 
 # Users
 
