@@ -226,6 +226,7 @@ su - git -c "cd gitlab && bundle exec rake gitlab:check RAILS_ENV=production"
 
 echo "### Done ###############################################"
 echo "# If the above configuration check is all green, you're set!"
+echo "# The only thing that should be red is the 'init script up-to-date' check."
 echo "#"
 echo "# The password for the $MYSQL_USER MySQL user is in:"
 echo "# /home/git/gitlab/config/database.yml"
