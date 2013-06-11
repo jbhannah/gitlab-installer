@@ -45,10 +45,9 @@ uname -r | grep "el6" || die 1 "Not RHEL or CentOS 6 (el6)"
 yum -y install http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 
 ## Install build dependencies
-yum -y install patch gcc-c++ readline-devel libffi-devel make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel gettext expat-devel curl-devel zlib-devel openssl-devel cpan
+yum -y install patch gcc-c++ readline-devel libffi-devel make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel gettext expat-devel curl-devel zlib-devel openssl-devel perl-ExtUtils-MakeMaker
 
 ## Install git from source
-echo "yes" | cpan -i ExtUtils::MakeMaker
 cd /usr/local/src
 curl https://www.kernel.org/pub/software/scm/git/git-1.8.3.tar.bz2 | tar xj
 cd git-1.8.3
