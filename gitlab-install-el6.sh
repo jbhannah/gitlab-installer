@@ -21,6 +21,9 @@ MYSQL_USER=gitlab
 # Define MySQL user password
 MYSQL_USER_PW=$(cat /dev/urandom | tr -cd [:alnum:] | head -c ${1:-16})
 
+# Define SMTP server for sendmail
+SMTP_SERVER=smtp.example.com
+
 # Exit on error
 
 die()
@@ -118,6 +121,19 @@ echo "CREATE DATABASE IF NOT EXISTS gitlabhq_production DEFAULT CHARACTER SET 'u
 
 ### Grant permissions to Gitlab user
 echo "GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON gitlabhq_production.* TO '$MYSQL_USER'@'localhost';" | mysql -u root
+
+# Email
+
+## Install sendmail-cf
+yum -y install sendmail
+
+## Configure sendmail
+cd /etc/mail
+sed -i "/SMART_HOST/a\
+define(\`SMART_HOST', \`$SMTP_SERVER')" sendmail.mc
+sed -i "s/^\(EXPOSED_USER(\`root')dnl\)$/dnl \1/" sendmail.mc
+make
+chkconfig sendmail on
 
 # GitLab
 
