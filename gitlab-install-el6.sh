@@ -69,6 +69,9 @@ rvm --default use $RUBY_VERSION
 ## Install core gems
 gem install --no-ri --no-rdoc bundler
 
+## Install charlock_holmes
+gem install charlock_holmes --version '0.6.9.4'
+
 # Users
 
 ## Create a git user for Gitlab
