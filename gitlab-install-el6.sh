@@ -13,7 +13,7 @@ GL_HOSTNAME=$HOSTNAME
 GL_GIT_BRANCH="5-3-stable"
 
 # Define the version of ruby the environment that we are installing for
-RUBY_VERSION="1.9.3-p429"
+RUBY_VERSION="1.9.3-p448"
 
 # Define MySQL user name
 MYSQL_USER=gitlab
