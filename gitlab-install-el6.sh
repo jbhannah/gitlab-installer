@@ -24,6 +24,12 @@ MYSQL_USER_PW=$(cat /dev/urandom | tr -cd [:alnum:] | head -c ${1:-16})
 # Define SMTP server for sendmail
 SMTP_SERVER=smtp.example.com
 
+# Define SMTP user name
+SMTP_USER=user@example.com
+
+# Define SMTP password
+SMTP_PASSWORD=password
+
 # Exit on error
 
 die()
@@ -126,16 +132,20 @@ echo "GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, AL
 
 # Email
 
-## Install sendmail-cf
-yum -y install sendmail-cf
+## Install postfix and cyrus-sasl-plain
+yum -y install postfix cyrus-sasl-plain
 
-## Configure sendmail
-cd /etc/mail
-sed -i "/SMART_HOST/a\
-define(\`SMART_HOST', \`$SMTP_SERVER')" sendmail.mc
-sed -i "s/^\(EXPOSED_USER(\`root')dnl\)$/dnl \1/" sendmail.mc
-make
-chkconfig sendmail on
+## Configure postfix
+postconf -e 'relayhost = $SMTP_SERVER'
+postconf -e 'smtp_sasl_auth_enable = yes'
+postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd'
+postconf -e 'smtp_sasl_security_options ='
+echo "$SMTP_SERVER $SMTP_USER:$SMTP_PASSWORD" >> /etc/postfix/sasl_passwd
+chwon root:root /etc/postfix/sasl_passwd
+chmod 600 /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
+chkconfig postfix on
+service postfix restart
 
 # GitLab
 
