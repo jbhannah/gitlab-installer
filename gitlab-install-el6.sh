@@ -55,8 +55,8 @@ yum -y install patch gcc-c++ readline-devel libffi-devel make autoconf automake 
 
 ## Install git from source
 cd /usr/local/src
-curl https://www.kernel.org/pub/software/scm/git/git-1.8.3.3.tar.bz2 | tar xj
-cd git-1.8.3.3
+curl https://www.kernel.org/pub/software/scm/git/git-1.8.3.4.tar.bz2 | tar xj
+cd git-1.8.3.4
 ./configure --prefix=/usr/local --without-tcltk
 make install
 
