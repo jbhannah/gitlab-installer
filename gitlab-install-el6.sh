@@ -10,10 +10,10 @@
 GL_HOSTNAME=$HOSTNAME
 
 # Install from this GitLab branch
-GL_GIT_BRANCH="5-4-stable"
+GL_GIT_BRANCH="6-0-stable"
 
 # Define the version of ruby the environment that we are installing for
-RUBY_VERSION="1.9.3-p448"
+RUBY_VERSION="2.0.0-p247"
 
 # Define MySQL user name
 MYSQL_USER=gitlab
@@ -172,11 +172,11 @@ sed -i "s/from: gitlab@localhost/from: gitlab@$GL_HOSTNAME/g" config/gitlab.yml
 sed -i "s|/usr/bin/git|/usr/local/bin/git|g" config/gitlab.yml
 
 ### Copy the example Puma config
-su git -c "cp config/puma.rb.example config/puma.rb"
+su git -c "cp config/unicorn.rb.example config/unicorn.rb"
 
 ### Listen on localhost:3000
-sed -i "s/^bind /# bind /g" /home/git/gitlab/config/puma.rb
-sed -i "s|# bind 'tcp://0.0.0.0:9292'|bind 'tcp://127.0.0.1:3000'|g" /home/git/gitlab/config/puma.rb
+sed -i -e "/^listen \"\/home\/ s/^/# /" \
+       -e "s/listen 8080/listen 3000/" /home/git/gitlab/config/unicorn.rb
 
 ### Copy database congiguration
 su git -c "cp config/database.yml.mysql config/database.yml"
